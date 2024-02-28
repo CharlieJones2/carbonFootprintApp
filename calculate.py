@@ -66,6 +66,8 @@ r2 = r2_score(y_test, y_pred)
 
 def Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance=None):
     # clean data
+    height = height
+    weight = weight
     bmi = weight/(height**2)
     if bmi > 18.5:
         bodyType = 'underweight'
