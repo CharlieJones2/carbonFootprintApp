@@ -103,7 +103,7 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
     monthlyClothes = clothes
     dailyInternet = internet
     energyEfficiency = energy_efficiency
-    recycling = recycling
+    Recycling = recycling
     cookType = cook
     
     df = pd.DataFrame({
@@ -120,7 +120,7 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
         'energyEfficiency': [energyEfficiency],
         'wasteSize': [wasteSize],
         'wasteCount': [wasteCount],
-        'recycling': [recycling],
+        'recycling': [Recycling],
         'dailyScreen': [dailyScreen],
         'dailyInternet': [dailyInternet],
         'monthlyGrocery': [monthlyGrocery],
