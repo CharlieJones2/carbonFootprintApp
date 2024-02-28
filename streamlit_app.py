@@ -21,8 +21,8 @@ if selected_tab == 'Personal':
     social_activity = st.selectbox('How Often per Month do you Engage in Social Activity', ['Never', 'Sometimes', 'Often'])
     
 
-elif selected_tab == 'Travel':
-    st.header('Travel Information')
+# elif selected_tab == 'Travel':
+#     st.header('Travel Information')
     air_travel = st.selectbox('How Often do you Travel by Air each Month?', ['Never', 'Rarely', 'Frequently', 'Very Frequently'])
     transport = st.selectbox('Which of These is your Primary Travel Method?', ['Private', 'Public', 'Walk/Bicycle'])
     if transport == 'Private':
