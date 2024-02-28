@@ -132,28 +132,162 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
     ordinal_encoder = OrdinalEncoder()
     for col in df[['shower', 'airTravel', 'energyEfficiency']]:
         df[col] = ordinal_encoder.fit_transform(df[[col]])
+    
+    # bodytype
+    if bodyType == 'underweight':
+        df['bodyType_underweight'] = 1
+        df['bodyType_overweight'] = 0
+        df['bodyType_obese'] = 0
+    elif bodyType == 'normal':
+        df['bodyType_underweight'] = 0
+        df['bodyType_overweight'] = 0
+        df['bodyType_obese'] = 0
+    elif bodyType == 'overweight':
+        df['bodyType_underweight'] = 0
+        df['bodyType_overweight'] = 1
+        df['bodyType_obese'] = 0
+    elif bodyType == 'obese':
+        df['bodyType_underweight'] = 0
+        df['bodyType_overweight'] = 0
+        df['bodyType_obese'] = 1
+    # sex
+    if sex == 'male':
+        df['sex_male'] = 1
+    elif sex == 'female':
+        df['sex_male'] = 0
+    # diet
+    if diet == 'omnivore':
+        df['diet_pescatarian'] = 0
+        df['diet_vegetarian'] = 0
+        df['diet_vegan'] = 0
+    elif diet == 'pescatarian':
+        df['diet_pescatarian'] = 1
+        df['diet_vegetarian'] = 0
+        df['diet_vegan'] = 0
+    elif diet == 'vegetarian':
+        df['diet_pescatarian'] = 0
+        df['diet_vegetarian'] = 1
+        df['diet_vegan'] = 0
+    elif diet == 'vegan':
+        df['diet_pescatarian'] = 0
+        df['diet_vegetarian'] = 0
+        df['diet_vegan'] = 1
+    # heating
+    if heating == 'coal':
+        df['heating_natural gas'] = 0
+        df['heating_wood'] = 0
+        df['heating_electricity'] = 0
+    elif heating == 'natural gas':
+        df['heating_natural gas'] = 1
+        df['heating_wood'] = 0
+        df['heating_electricity'] = 0
+    elif heating == 'wood':
+        df['heating_natural gas'] = 0
+        df['heating_wood'] = 1
+        df['heating_electricity'] = 0
+    elif heating == 'electricity':
+        df['heating_natural gas'] = 0
+        df['heating_wood'] = 0
+        df['heating_electricity'] = 1
+    # transport
+    if transport == 'private':
+        df['transport_public'] = 0
+        df['transport_walk/bicycle'] = 0
+        if vehicle == 'diesel':
+            df['vehicle_electric'] = 0
+            df['vehicle_hybrid'] = 0
+            df['vehicle_lpg'] = 0
+            df['vehicle_petrol'] = 0
+        elif vehicle == 'petrol':
+            df['vehicle_electric'] = 0
+            df['vehicle_hybrid'] = 0
+            df['vehicle_lpg'] = 0
+            df['vehicle_petrol'] = 1
+        elif vehicle == 'lpg':
+            df['vehicle_electric'] = 0
+            df['vehicle_hybrid'] = 0
+            df['vehicle_lpg'] = 1
+            df['vehicle_petrol'] = 0
+        elif vehicle == 'hybrid':
+            df['vehicle_electric'] = 0
+            df['vehicle_hybrid'] = 1
+            df['vehicle_lpg'] = 0
+            df['vehicle_petrol'] = 0
+        elif vehicle == 'electric':
+            df['vehicle_electric'] = 1
+            df['vehicle_hybrid'] = 0
+            df['vehicle_lpg'] = 0
+            df['vehicle_petrol'] = 0
         
-    df = pd.get_dummies(df, columns=['bodyType', 'sex', 'diet', 'heating', 'transport', 'social', 'wasteSize'], drop_first=True)
-    df = pd.get_dummies(df, columns=['vehicle'], dummy_na=False, drop_first=True)
+    elif transport == 'public':
+        df['transport_public'] = 0
+        df['transport_walk/bicycle'] = 0
+        df['vehicle_electric'] = 0
+        df['vehicle_hybrid'] = 0
+        df['vehicle_lpg'] = 0
+        df['vehicle_petrol'] = 0
+    elif transport == 'walk/bicycle':
+        df['transport_public'] = 0
+        df['transport_walk/bicycle'] = 1
+        df['vehicle_electric'] = 0
+        df['vehicle_hybrid'] = 0
+        df['vehicle_lpg'] = 0
+        df['vehicle_petrol'] = 0
+    # social
+    if social == 'never':
+        df['social_often'] = 0
+        df['social_sometimes'] = 0
+    elif social == 'sometimes':
+        df['social_often'] = 0
+        df['social_sometimes'] = 1
+    elif social == 'often':
+        df['social_often'] = 1
+        df['social_sometimes'] = 0
+    # wasteSize
+    if wasteSize == 'extra large':
+        df['wasteSize_small'] = 0
+        df['wasteSize_medium'] = 0
+        df['wasteSize_large'] = 0
+    elif wasteSize == 'large':
+        df['wasteSize_small'] = 0
+        df['wasteSize_medium'] = 0
+        df['wasteSize_large'] = 1
+    elif wasteSize == 'medium':
+        df['wasteSize_small'] = 0
+        df['wasteSize_medium'] = 1
+        df['wasteSize_large'] = 0
+    elif wasteSize == 'small':
+        df['wasteSize_small'] = 1
+        df['wasteSize_medium'] = 0
+        df['wasteSize_large'] = 0 
+    df.drop(columns=['bodyType', 'sex', 'diet', 'heating', 'transport', 'social', 'wasteSize'])
+    # df = pd.get_dummies(df, columns=['bodyType', 'sex', 'diet', 'heating', 'transport', 'social', 'wasteSize'], drop_first=True)
+    # df = pd.get_dummies(df, columns=['vehicle'], dummy_na=False, drop_first=True)
 
-    # df['recycling'] = df['recycling'].apply(ast.literal_eval)
-    # df['cookType'] = df['cookType'].apply(ast.literal_eval)
-
-    mlb = MultiLabelBinarizer()
-    recycling_encoded = mlb.fit_transform(df['recycling'])
-    classes=mlb.classes_
-    recycling_df = pd.DataFrame(recycling_encoded, columns=classes)
-    recycling_df.head()
-    recycling_df.columns = ['recycling_' + col.lower() for col in recycling_df.columns]
-
-    cooktype_encoded = mlb.fit_transform(df['cookType'])
-    classes=mlb.classes_
-    cooktype_df = pd.DataFrame(cooktype_encoded, columns=classes)
-    cooktype_df.columns = ['cookType_' + col.lower() for col in cooktype_df.columns]
-    cooktype_df.head()
-
+    recycling_df = pd.DataFrame(columns=['recycling_paper', 'recycling_metal', 'recycling_plastic', 'recycling_glass'])
+    for item in ['paper', 'metal', 'plastic', 'glass']:
+        recycling_df[f'recycling_{item}'] = [1 if item in recycling else 0]
     df = df.join(recycling_df)
+    # mlb = MultiLabelBinarizer()
+    # recycling_encoded = mlb.fit_transform(df['recycling'])
+    # classes=mlb.classes_
+    # recycling_df = pd.DataFrame(recycling_encoded, columns=classes)
+    # recycling_df.head()
+    # recycling_df.columns = ['recycling_' + col.lower() for col in recycling_df.columns]
+
+    cooktype_df = pd.DataFrame(columns=['cooktype_airfryer', 'cooktype_grill', 'cooktype_oven', 'cooktype_microwave', 'cookype_stove'])
+    for item in ['airfryer', 'grill', 'oven', 'microwave', 'stove']:
+        cooktype_df[f'cooktype_{item}'] = [1 if item in cookType else 0]
+
     df = df.join(cooktype_df)
+    # cooktype_encoded = mlb.fit_transform(df['cookType'])
+    # classes=mlb.classes_
+    # cooktype_df = pd.DataFrame(cooktype_encoded, columns=classes)
+    # cooktype_df.columns = ['cookType_' + col.lower() for col in cooktype_df.columns]
+    # cooktype_df.head()
+
+    # df = df.join(recycling_df)
+    # df = df.join(cooktype_df)
     df.drop(columns=['recycling', 'cookType'], inplace=True)
     
     emissions = lr.predict(df)
