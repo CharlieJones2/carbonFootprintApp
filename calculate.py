@@ -106,7 +106,7 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
     recycling = recycling
     cookType = cook
     
-    user_data = pd.DataFrame({
+    df = pd.DataFrame({
         'bodyType': [bodyType],
         'sex': [sex],
         'diet': [diet],
