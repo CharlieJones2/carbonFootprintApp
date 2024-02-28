@@ -95,7 +95,7 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
         vehicle = np.nan
     
     social = social_activity.lower()
-    monthlyGrocery = grocery.lower()
+    monthlyGrocery = grocery
     airTravel = air_travel.lower()
     wasteSize = waste_size.lower()
     wasteCount = waste_count
