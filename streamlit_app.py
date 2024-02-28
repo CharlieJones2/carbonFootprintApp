@@ -14,10 +14,9 @@ if selected_tab == 'Personal':
     height = st.number_input('Height (cm)', min_value=1, max_value=200, value=100, step=1)
     height = height/100
     weight = st.number_input('Weight (kg)', min_value=1, max_value=200, value=100, step=1)
-    bmi = weight/(height**2)
     sex = st.selectbox('Sex', ['Male', 'Female'])
-    diet = st.selectbox('Diet', ['Omnivore', 'Pescatarian', 'Vegetarian', 'Vegan'])
-    social_activity = st.selectbox('Social Activity', ['Never', 'Sometimes', 'Often'])
+    diet = st.selectbox('Diet/Lifestyle', ['Omnivore', 'Pescatarian', 'Vegetarian', 'Vegan'])
+    social_activity = st.selectbox('How Often per Month do you Engage in Social Activity', ['Never', 'Sometimes', 'Often'])
     
 
 elif selected_tab == 'Travel':
@@ -35,24 +34,25 @@ elif selected_tab == 'Travel':
     
 elif selected_tab == 'Energy':
     st.header('Energy Consumption')
-    shower = st.selectbox('How Often do you Shower?', ['Daily', 'Twice a Day', 'More Frequently', 'Less Frequently'])
+    shower = st.selectbox('How Often do you Shower?', ['Less Frequently', 'Daily', 'Twice a Day', 'More Frequently'])
     heating = st.selectbox('Which of These is your Primary Heating Source?', ['Coal', 'Natural Gas', 'Wood', 'Electricity'])
     energy_efficiency = st.selectbox('Is your Home Energy Efficient?', ['No', 'Sometimes', 'Yes'])
     
 elif selected_tab == 'Waste':
     waste_size = st.selectbox('How Big is your Waste Bag?', ['Small', 'Medium', 'Large', 'Extra Large'])
     waste_count = st.number_input('How Many Waste Bags do you Use per Week?', min_value=0, max_value=10, step=1)
-    recycling = st.multiselect('Which of the Followind do you Recycle?', ['Paper', 'Glass', 'Plastic', 'Metal'])
+    recycling = st.multiselect('Which of the Following do you Recycle? (Select all that apply)', ['Paper', 'Glass', 'Plastic', 'Metal'])
     
 elif selected_tab == 'Consumption':
     screen_time = st.number_input('How Many Hours per Day do you Spend on a Screen (PC/Laptop/Phone/Tablet etc)?', min_value=0, max_value=24, step=1)
     internet = st.number_input('How Many Hours per Day do you Spend Online?', min_value=0, max_value=24, step=1)
-    grocery = st.number_input('Roughly How Many Dollars do you Spend on Groceries Each Month?', min_value=0, max_value=2000, step=1)
+    grocery = st.number_input('Roughly How Many Dollars do you Spend on Groceries Each Month?', min_value=0, max_value=2000, step=20)
     clothes = st.number_input('How Many New Items of Clothing do you Buy Each Month?', min_value=0, max_value=75, step=1)
     cook = st.multiselect('Which of the Following do you Cook With? (Select all that apply)', ['Stove', 'Oven', 'Microwave', 'Grill', 'Air Fryer'])
 
 elif selected_tab == 'Results':
     calculate = st.button('Calculate')
     if calculate:
+        emissions = 'Press the Calculate button to See your Estimated Emission Levels'
         Calculate(bmi, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance=None)
-        
+        st.write(emissions)

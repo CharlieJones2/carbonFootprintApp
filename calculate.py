@@ -64,8 +64,9 @@ mae = mean_absolute_error(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 
-def Calculate(bmi, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance=None):
+def Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance=None):
     # clean data
+    bmi = weight/(height**2)
     if bmi > 18.5:
         bodyType = 'underweight'
     elif 18.5 < bmi < 24.9:
@@ -91,7 +92,7 @@ def Calculate(bmi, sex, diet, social_activity, air_travel, transport, vehicle_ty
         montlhyVehicle = 0
         vehicle = np.nan
     
-    social = social.lower()
+    social = social_activity.lower()
     monthlyGrocery = grocery.lower()
     airTravel = air_travel.lower()
     wasteSize = waste_size.lower()
