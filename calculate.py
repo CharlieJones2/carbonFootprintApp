@@ -79,7 +79,7 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
         bodyType = 'obese'
         
     sex = sex.lower()
-    diet = diet.lower()
+    Diet = diet.lower()
     shower = shower.lower()
     heating = heating.lower()
     transport = transport.lower()
@@ -109,7 +109,7 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
     df = pd.DataFrame({
         'bodyType': [bodyType],
         'sex': [sex],
-        'diet': [diet],
+        'diet': [Diet],
         'social': [social],
         'airTravel': [airTravel],
         'transport': [transport],
@@ -156,19 +156,19 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
     elif sex == 'female':
         df['sex_male'] = 0
     # diet
-    if diet == 'omnivore':
+    if Diet == 'omnivore':
         df['diet_pescatarian'] = 0
         df['diet_vegetarian'] = 0
         df['diet_vegan'] = 0
-    elif diet == 'pescatarian':
+    elif Diet == 'pescatarian':
         df['diet_pescatarian'] = 1
         df['diet_vegetarian'] = 0
         df['diet_vegan'] = 0
-    elif diet == 'vegetarian':
+    elif Diet == 'vegetarian':
         df['diet_pescatarian'] = 0
         df['diet_vegetarian'] = 1
         df['diet_vegan'] = 0
-    elif diet == 'vegan':
+    elif Diet == 'vegan':
         df['diet_pescatarian'] = 0
         df['diet_vegetarian'] = 0
         df['diet_vegan'] = 1
@@ -261,8 +261,6 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
         df['wasteSize_medium'] = 0
         df['wasteSize_large'] = 0 
     df.drop(columns=['bodyType', 'sex', 'diet', 'heating', 'transport', 'social', 'wasteSize'])
-    # df = pd.get_dummies(df, columns=['bodyType', 'sex', 'diet', 'heating', 'transport', 'social', 'wasteSize'], drop_first=True)
-    # df = pd.get_dummies(df, columns=['vehicle'], dummy_na=False, drop_first=True)
 
     recycling_df = pd.DataFrame(columns=['recycling_paper', 'recycling_metal', 'recycling_plastic', 'recycling_glass'])
     for item in ['paper', 'metal', 'plastic', 'glass']:
