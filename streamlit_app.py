@@ -1,12 +1,12 @@
 import streamlit as st
-import pandas as pd
+from calculate import Calculate
 
 # Title and description
 st.title('Carbon Footprint Calculator')
 st.write('This application helps you calculate your carbon footprint.')
 
 # Create tabs
-tabs = ['Personal', 'Travel', 'Energy', 'Waste', 'Consumption']
+tabs = ['Personal', 'Travel', 'Energy', 'Waste', 'Consumption', 'Results']
 selected_tab = st.sidebar.selectbox('Choose a tab', tabs)
 
 if selected_tab == 'Personal':
@@ -50,3 +50,9 @@ elif selected_tab == 'Consumption':
     grocery = st.number_input('Roughly How Many Dollars do you Spend on Groceries Each Month?', min_value=0, max_value=2000, step=1)
     clothes = st.number_input('How Many New Items of Clothing do you Buy Each Month?', min_value=0, max_value=75, step=1)
     cook = st.multiselect('Which of the Following do you Cook With? (Select all that apply)', ['Stove', 'Oven', 'Microwave', 'Grill', 'Air Fryer'])
+
+elif selected_tab == 'Results':
+    calculate = st.button('Calculate')
+    if calculate:
+        Calculate(bmi, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance=None)
+        
