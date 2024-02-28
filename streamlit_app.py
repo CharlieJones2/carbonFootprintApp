@@ -11,9 +11,9 @@ selected_tab = st.sidebar.selectbox('Choose a tab', tabs)
 
 if selected_tab == 'Personal':
     st.header('Personal Information')
-    height = st.number_input('Height (cm)', min_value=1, max_value=200, step=1)
+    height = st.number_input('Height (cm)', min_value=1, max_value=200, value=100, step=1)
     height = height/100
-    weight = st.number_input('Weight (kg)', min_value=1, max_value=200, step=1)
+    weight = st.number_input('Weight (kg)', min_value=1, max_value=200, value=100, step=1)
     bmi = weight/(height**2)
     sex = st.selectbox('Sex', ['Male', 'Female'])
     diet = st.selectbox('Diet', ['Omnivore', 'Pescatarian', 'Vegetarian', 'Vegan'])
@@ -22,12 +22,12 @@ if selected_tab == 'Personal':
 
 elif selected_tab == 'Travel':
     st.header('Travel Information')
+    air_travel = st.selectbox('How Often do you Travel by Air each Month?', ['Never', 'Rarely', 'Frequently', 'Very Frequently'])
     transport = st.selectbox('Which of These is your Primary Travel Method?', ['Private', 'Public', 'Walk/Bicycle'])
     if transport == 'Private':
         vehicle_type = st.selectbox('Vehicle Fuel Type:', ['Petrol', 'LPG', 'Diesel', 'Hybrid', 'Electric'])
     else:
         vehicle_type = None
-    air_travel = st.selectbox('How Often do you Travel by Air each Month?', ['Never', 'Rarely', 'Frequently', 'Very Frequently'])
     if vehicle_type is not None:
         distance = st.number_input('How Many Miles did your Vehicle do in the Past Month?', min_value=0, max_value=1000, step=1)
     else:
