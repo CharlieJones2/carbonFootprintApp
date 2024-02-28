@@ -34,25 +34,25 @@ elif selected_tab == 'Travel':
     else:
         distance = 0
     
-elif selected_tab == 'Energy':
-    st.header('Energy Consumption')
+# elif selected_tab == 'Energy':
+#     st.header('Energy Consumption')
     shower = st.selectbox('How Often do you Shower?', ['Less Frequently', 'Daily', 'Twice a Day', 'More Frequently'])
     heating = st.selectbox('Which of These is your Primary Heating Source?', ['Coal', 'Natural Gas', 'Wood', 'Electricity'])
     energy_efficiency = st.selectbox('Is your Home Energy Efficient?', ['No', 'Sometimes', 'Yes'])
     
-elif selected_tab == 'Waste':
+# elif selected_tab == 'Waste':
     waste_size = st.selectbox('How Big is your Waste Bag?', ['Small', 'Medium', 'Large', 'Extra Large'])
     waste_count = st.number_input('How Many Waste Bags do you Use per Week?', min_value=0, max_value=10, step=1)
     recycling = st.multiselect('Which of the Following do you Recycle? (Select all that apply)', ['Paper', 'Glass', 'Plastic', 'Metal'])
     
-elif selected_tab == 'Consumption':
+# elif selected_tab == 'Consumption':
     screen_time = st.number_input('How Many Hours per Day do you Spend on a Screen (PC/Laptop/Phone/Tablet etc)?', min_value=0, max_value=24, step=1)
     internet = st.number_input('How Many Hours per Day do you Spend Online?', min_value=0, max_value=24, step=1)
     grocery = st.number_input('Roughly How Many Dollars do you Spend on Groceries Each Month?', min_value=0, max_value=2000, step=20)
     clothes = st.number_input('How Many New Items of Clothing do you Buy Each Month?', min_value=0, max_value=75, step=1)
     cook = st.multiselect('Which of the Following do you Cook With? (Select all that apply)', ['Stove', 'Oven', 'Microwave', 'Grill', 'Air Fryer'])
 
-elif selected_tab == 'Results':
+# elif selected_tab == 'Results':
     calculate = st.button('Calculate')
     if calculate and height and weight and sex and diet and social_activity and air_travel and transport and vehicle_type and shower and heating and energy_efficiency and waste_size and waste_count and recycling and screen_time and internet and grocery and clothes and cook and distance:
         emissions = Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance)
