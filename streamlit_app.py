@@ -54,5 +54,5 @@ elif selected_tab == 'Results':
     calculate = st.button('Calculate')
     if calculate:
         emissions = 'Press the Calculate button to See your Estimated Emission Levels'
-        Calculate(bmi, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance=None)
+        Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance=None)
         st.write(emissions)
