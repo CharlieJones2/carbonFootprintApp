@@ -136,11 +136,8 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
     df = pd.get_dummies(df, columns=['bodyType', 'sex', 'diet', 'heating', 'transport', 'social', 'wasteSize'], drop_first=True)
     df = pd.get_dummies(df, columns=['vehicle'], dummy_na=False, drop_first=True)
 
-    print(df['recycling'])
-    print(df['recycling']).dtypes
-
-    df['recycling'] = df['recycling'].apply(ast.literal_eval)
-    df['cookType'] = df['cookType'].apply(ast.literal_eval)
+    # df['recycling'] = df['recycling'].apply(ast.literal_eval)
+    # df['cookType'] = df['cookType'].apply(ast.literal_eval)
 
     mlb = MultiLabelBinarizer()
     recycling_encoded = mlb.fit_transform(df['recycling'])
