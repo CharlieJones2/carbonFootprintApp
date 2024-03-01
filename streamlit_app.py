@@ -22,7 +22,7 @@ if transport == 'Private':
 else:
     vehicle_type = None
 if vehicle_type is not None:
-    distance = st.number_input('How Many Miles did your Vehicle do in the Past Month?', min_value=0, max_value=1000, step=1)
+    distance = st.number_input('How Many Miles did your Vehicle do in the Past Month?', min_value=0, max_value=1000, step=50)
 else:
     distance = 0
 

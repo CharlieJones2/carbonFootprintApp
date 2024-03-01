@@ -1,5 +1,4 @@
 
-import numpy as np
 import pandas as pd
 dataset = pd.read_csv('Carbon Emission.csv')
 df = pd.DataFrame(dataset)
@@ -21,7 +20,7 @@ for col in df[['shower', 'airTravel', 'energyEfficiency']]:
     df[col] = ordinal_encoder.fit_transform(df[[col]])
     
 df = pd.get_dummies(df, columns=['bodyType', 'sex', 'diet', 'heating', 'transport', 'social', 'wasteSize'], drop_first=True)
-df = pd.get_dummies(df, columns=['vehicle'], dummy_na=False, drop_first=True)
+df = pd.get_dummies(df, columns=['vehicle'], dummy_na=True, drop_first=True)
 
 import ast
 df['recycling'] = df['recycling'].apply(ast.literal_eval)
@@ -64,229 +63,123 @@ mae = mean_absolute_error(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
 
-def Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance=None):
-    # clean data
-    height = height
-    weight = weight
-    bmi = weight/(height**2)
-    if bmi > 18.5:
-        bodyType = 'underweight'
+def Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, distance, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook):
+    user = pd.DataFrame(columns=["shower","monthlyGrocery","airTravel","monthlyVehicle","wasteCount","dailyScreen","monthlyClothes","dailyInternet","energyEfficiency",
+                                 "bodyType_obese","bodyType_overweight","bodyType_underweight","sex_male",
+                                 "diet_pescatarian","diet_vegan","diet_vegetarian","heating_electricity","heating_natural gas","heating_wood","transport_public","transport_walk/bicycle","social_often",
+                                 "social_sometimes","wasteSize_large","wasteSize_medium","wasteSize_small","vehicle_electric","vehicle_hybrid","vehicle_lpg","vehicle_petrol","vehicle_nan","recycling_glass","recycling_metal",
+                                 "recycling_paper","recycling_plastic","cookType_airfryer","cookType_grill","cookType_microwave","cookType_oven","cookType_stove"])
+    user.loc[0] = [0]*len(user.columns)
+    
+    # determining user inputs
+    bmi = weight / (height ** 2)
+    if bmi < 18.5:
+        user['bodyType_underweight'] = 1
     elif 18.5 < bmi < 24.9:
-        bodyType = 'normal'
+        pass
     elif 25 < bmi < 29.9:
-        bodyType = 'overweight'
+        user['bodyType_overweight'] = 1
     elif bmi > 30:
-        bodyType = 'obese'
+        user['bodyType_obese'] = 1
         
-    sex = sex.lower()
-    Diet = diet.lower()
-    shower = shower.lower()
-    heating = heating.lower()
-    transport = transport.lower()
-
-    if transport == 'private':
-        vehicle = vehicle_type.lower()
-        montlhyVehicle = distance
-    elif transport == 'public':
-        vehicle = np.nan
-        montlhyVehicle = 0
-    elif transport == 'walk/bicycle':
-        montlhyVehicle = 0
-        vehicle = np.nan
+    if sex == 'Male':
+        user['sex_male'] = 1
     
-    social = social_activity.lower()
-    monthlyGrocery = grocery
-    airTravel = air_travel.lower()
-    wasteSize = waste_size.lower()
-    wasteCount = waste_count
-    dailyScreen = screen_time
-    monthlyClothes = clothes
-    dailyInternet = internet
-    energyEfficiency = energy_efficiency
-    Recycling = recycling
-    cookType = cook
+    if diet == 'Pescatarian':
+        user['diet_pescatarian'] = 1
+    elif diet == 'Vegetarian':
+        user['diet_vegetarian'] = 1
+    elif diet == 'Vegan':
+        user['diet_vegan'] = 1
     
-    df = pd.DataFrame({
-        'bodyType': [bodyType],
-        'sex': [sex],
-        'diet': [Diet],
-        'social': [social],
-        'airTravel': [airTravel],
-        'transport': [transport],
-        'vehicle': [vehicle],
-        'monthlyVehicle': [montlhyVehicle],
-        'shower': [shower],
-        'heating': [heating],
-        'energyEfficiency': [energyEfficiency],
-        'wasteSize': [wasteSize],
-        'wasteCount': [wasteCount],
-        'recycling': [Recycling],
-        'dailyScreen': [dailyScreen],
-        'dailyInternet': [dailyInternet],
-        'monthlyGrocery': [monthlyGrocery],
-        'monthlyClothes': [monthlyClothes],
-        'cookType': [cookType]
-    })
+    if social_activity == 'Often':
+        user['social_often'] = 1
+    elif social_activity == 'Sometimes':
+        user['social_sometimes'] == 1
     
-    # process data
-    ordinal_encoder = OrdinalEncoder()
-    for col in df[['shower', 'airTravel', 'energyEfficiency']]:
-        df[col] = ordinal_encoder.fit_transform(df[[col]])
-    
-    # bodytype
-    if bodyType == 'underweight':
-        df['bodyType_underweight'] = 1
-        df['bodyType_overweight'] = 0
-        df['bodyType_obese'] = 0
-    elif bodyType == 'normal':
-        df['bodyType_underweight'] = 0
-        df['bodyType_overweight'] = 0
-        df['bodyType_obese'] = 0
-    elif bodyType == 'overweight':
-        df['bodyType_underweight'] = 0
-        df['bodyType_overweight'] = 1
-        df['bodyType_obese'] = 0
-    elif bodyType == 'obese':
-        df['bodyType_underweight'] = 0
-        df['bodyType_overweight'] = 0
-        df['bodyType_obese'] = 1
-    # sex
-    if sex == 'male':
-        df['sex_male'] = 1
-    elif sex == 'female':
-        df['sex_male'] = 0
-    # diet
-    if Diet == 'omnivore':
-        df['diet_pescatarian'] = 0
-        df['diet_vegetarian'] = 0
-        df['diet_vegan'] = 0
-    elif Diet == 'pescatarian':
-        df['diet_pescatarian'] = 1
-        df['diet_vegetarian'] = 0
-        df['diet_vegan'] = 0
-    elif Diet == 'vegetarian':
-        df['diet_pescatarian'] = 0
-        df['diet_vegetarian'] = 1
-        df['diet_vegan'] = 0
-    elif Diet == 'vegan':
-        df['diet_pescatarian'] = 0
-        df['diet_vegetarian'] = 0
-        df['diet_vegan'] = 1
-    # heating
-    if heating == 'coal':
-        df['heating_natural gas'] = 0
-        df['heating_wood'] = 0
-        df['heating_electricity'] = 0
-    elif heating == 'natural gas':
-        df['heating_natural gas'] = 1
-        df['heating_wood'] = 0
-        df['heating_electricity'] = 0
-    elif heating == 'wood':
-        df['heating_natural gas'] = 0
-        df['heating_wood'] = 1
-        df['heating_electricity'] = 0
-    elif heating == 'electricity':
-        df['heating_natural gas'] = 0
-        df['heating_wood'] = 0
-        df['heating_electricity'] = 1
-    # transport
-    if transport == 'private':
-        df['transport_public'] = 0
-        df['transport_walk/bicycle'] = 0
-        if vehicle == 'diesel':
-            df['vehicle_electric'] = 0
-            df['vehicle_hybrid'] = 0
-            df['vehicle_lpg'] = 0
-            df['vehicle_petrol'] = 0
-        elif vehicle == 'petrol':
-            df['vehicle_electric'] = 0
-            df['vehicle_hybrid'] = 0
-            df['vehicle_lpg'] = 0
-            df['vehicle_petrol'] = 1
-        elif vehicle == 'lpg':
-            df['vehicle_electric'] = 0
-            df['vehicle_hybrid'] = 0
-            df['vehicle_lpg'] = 1
-            df['vehicle_petrol'] = 0
-        elif vehicle == 'hybrid':
-            df['vehicle_electric'] = 0
-            df['vehicle_hybrid'] = 1
-            df['vehicle_lpg'] = 0
-            df['vehicle_petrol'] = 0
-        elif vehicle == 'electric':
-            df['vehicle_electric'] = 1
-            df['vehicle_hybrid'] = 0
-            df['vehicle_lpg'] = 0
-            df['vehicle_petrol'] = 0
+    if air_travel == 'Rarely':
+        user['airTravel'] = 1
+    elif air_travel == 'Frequently':
+        user['airTravel'] = 2
+    elif air_travel == 'Very Frequently':
+        user['airTravel'] = 3
         
-    elif transport == 'public':
-        df['transport_public'] = 0
-        df['transport_walk/bicycle'] = 0
-        df['vehicle_electric'] = 0
-        df['vehicle_hybrid'] = 0
-        df['vehicle_lpg'] = 0
-        df['vehicle_petrol'] = 0
-    elif transport == 'walk/bicycle':
-        df['transport_public'] = 0
-        df['transport_walk/bicycle'] = 1
-        df['vehicle_electric'] = 0
-        df['vehicle_hybrid'] = 0
-        df['vehicle_lpg'] = 0
-        df['vehicle_petrol'] = 0
-    # social
-    if social == 'never':
-        df['social_often'] = 0
-        df['social_sometimes'] = 0
-    elif social == 'sometimes':
-        df['social_often'] = 0
-        df['social_sometimes'] = 1
-    elif social == 'often':
-        df['social_often'] = 1
-        df['social_sometimes'] = 0
-    # wasteSize
-    if wasteSize == 'extra large':
-        df['wasteSize_small'] = 0
-        df['wasteSize_medium'] = 0
-        df['wasteSize_large'] = 0
-    elif wasteSize == 'large':
-        df['wasteSize_small'] = 0
-        df['wasteSize_medium'] = 0
-        df['wasteSize_large'] = 1
-    elif wasteSize == 'medium':
-        df['wasteSize_small'] = 0
-        df['wasteSize_medium'] = 1
-        df['wasteSize_large'] = 0
-    elif wasteSize == 'small':
-        df['wasteSize_small'] = 1
-        df['wasteSize_medium'] = 0
-        df['wasteSize_large'] = 0 
-    df.drop(columns=['bodyType', 'sex', 'diet', 'heating', 'transport', 'social', 'wasteSize'])
-
-    recycling_df = pd.DataFrame(columns=['recycling_paper', 'recycling_metal', 'recycling_plastic', 'recycling_glass'])
-    for item in ['paper', 'metal', 'plastic', 'glass']:
-        recycling_df[f'recycling_{item}'] = [1 if item in recycling else 0]
-    df = df.join(recycling_df)
-    # mlb = MultiLabelBinarizer()
-    # recycling_encoded = mlb.fit_transform(df['recycling'])
-    # classes=mlb.classes_
-    # recycling_df = pd.DataFrame(recycling_encoded, columns=classes)
-    # recycling_df.head()
-    # recycling_df.columns = ['recycling_' + col.lower() for col in recycling_df.columns]
-
-    cooktype_df = pd.DataFrame(columns=['cooktype_airfryer', 'cooktype_grill', 'cooktype_oven', 'cooktype_microwave', 'cookype_stove'])
-    for item in ['airfryer', 'grill', 'oven', 'microwave', 'stove']:
-        cooktype_df[f'cooktype_{item}'] = [1 if item in cookType else 0]
-
-    df = df.join(cooktype_df)
-    # cooktype_encoded = mlb.fit_transform(df['cookType'])
-    # classes=mlb.classes_
-    # cooktype_df = pd.DataFrame(cooktype_encoded, columns=classes)
-    # cooktype_df.columns = ['cookType_' + col.lower() for col in cooktype_df.columns]
-    # cooktype_df.head()
-
-    # df = df.join(recycling_df)
-    # df = df.join(cooktype_df)
-    df.drop(columns=['recycling', 'cookType'], inplace=True)
+    if transport == 'Public':
+        user['transport_public'] = 1
+    elif transport == 'Walk/Bicycle':
+        user['transport_walk/bicycle'] = 1
     
-    emissions = lr.predict(df)
+    if vehicle_type is None:
+        user['vehicle_nan'] = 1
+    elif vehicle_type == 'Petrol':
+        user['vehicle_petrol'] = 1
+    elif vehicle_type == 'LPG':
+        user['vehicle_lpg'] = 1
+    elif vehicle_type == 'Hybrid':
+        user['vehicle_hybrid'] = 1
+    elif vehicle_type == 'Electric':
+        user['vehicle_electric'] = 1
+    
+    user['monthlyVehicle'] = distance
+    
+    if shower == 'Less Frequently':
+        user['shower'] = 0
+    elif shower == 'Daily':
+        user['shower'] = 1
+    elif shower == 'Twice a Day':
+        user['shower'] = 2
+    elif shower == 'More Frequently':
+        user['shower'] = 3
+    
+    if heating == 'Electricity':
+        user['heating_electricity'] = 1
+    elif heating == 'Natural Gas':
+        user['heating_natural gas'] = 1
+    elif heating == 'Wood':
+        user['heating_wood'] = 1
+    
+    if energy_efficiency == 'No':
+        user['energyEfficiency'] = 0
+    elif energy_efficiency == 'Sometimes':
+        user['energyEfficiency'] = 1
+    elif energy_efficiency == 'Yes':
+        user['energyEfficiency'] = 2
+        
+    if waste_size == 'Large':
+        user['wasteSize_large'] = 1
+    elif waste_size == 'Medium':
+        user['wasteSize_medium'] = 1
+    elif waste_size == 'Small':
+        user['wasteSize_small'] = 1
+    
+    user['wasteCount'] = waste_count
+    
+    recyclables = ['Glass', 'Paper', 'Plastic', 'Metal']
+    for item in recyclables:
+        column_name = 'recycling_' + item.lower()
+        if item in recycling:
+            user.at[0, column_name] = 1
+        else:
+            user.at[0, column_name] = 0
+    
+    user['dailyScreen'] = screen_time
+    
+    user['dailyInternet'] = internet
+    
+    user['monthlyGrocery'] = grocery
+    
+    user['monthlyClothes'] = clothes
+    
+    cooking_methods = ['Stove', 'Oven', 'Microwave', 'Grill', 'Air Fryer']
+    for method in cooking_methods:
+        column_name = 'cookType_' + method.lower().replace(' ', '')
+        if method in cook:
+            user.at[0, column_name] = 1
+        else:
+            user.at[0, column_name] = 0
+    
+    emissions = lr.predict(user)
     return emissions
+
+
+Calculate()
