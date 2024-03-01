@@ -180,6 +180,3 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
     
     emissions = lr.predict(user)
     return emissions
-
-
-Calculate()
