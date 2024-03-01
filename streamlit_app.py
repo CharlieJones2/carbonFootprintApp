@@ -15,6 +15,7 @@ sex = st.selectbox('Sex', ['Male', 'Female'])
 diet = st.selectbox('Diet/Lifestyle', ['Omnivore', 'Pescatarian', 'Vegetarian', 'Vegan'])
 social_activity = st.selectbox('How Often per Month do you Engage in Social Activity', ['Never', 'Sometimes', 'Often'])
 
+st.header('Travel')
 air_travel = st.selectbox('How Often do you Travel by Air each Month?', ['Never', 'Rarely', 'Frequently', 'Very Frequently'])
 transport = st.selectbox('Which of These is your Primary Travel Method?', ['Private', 'Public', 'Walk/Bicycle'])
 if transport == 'Private':
@@ -26,14 +27,17 @@ if vehicle_type is not None:
 else:
     distance = 0
 
+st.header('Energy Usage')
 shower = st.selectbox('How Often do you Shower?', ['Less Frequently', 'Daily', 'Twice a Day', 'More Frequently'])
 heating = st.selectbox('Which of These is your Primary Heating Source?', ['Coal', 'Natural Gas', 'Wood', 'Electricity'])
 energy_efficiency = st.selectbox('Is your Home Energy Efficient?', ['No', 'Sometimes', 'Yes'])
 
+st.header('Waste and Recycling')
 waste_size = st.selectbox('How Big is your Waste Bag?', ['Small', 'Medium', 'Large', 'Extra Large'])
 waste_count = st.number_input('How Many Waste Bags do you Use per Week?', min_value=0, max_value=10, step=1)
 recycling = st.multiselect('Which of the Following do you Recycle? (Select all that apply)', ['Paper', 'Glass', 'Plastic', 'Metal'])
 
+st.header('Other')
 screen_time = st.number_input('How Many Hours per Day do you Spend on a Screen (PC/Laptop/Phone/Tablet etc)?', min_value=0, max_value=24, step=1)
 internet = st.number_input('How Many Hours per Day do you Spend Online?', min_value=0, max_value=24, step=1)
 grocery = st.number_input('Roughly How Many Dollars do you Spend on Groceries Each Month?', min_value=0, max_value=2000, step=20)
