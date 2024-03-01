@@ -41,8 +41,5 @@ clothes = st.number_input('How Many New Items of Clothing do you Buy Each Month?
 cook = st.multiselect('Which of the Following do you Cook With? (Select all that apply)', ['Stove', 'Oven', 'Microwave', 'Grill', 'Air Fryer'])
 
 calculate = st.button('Calculate')
-if calculate and height and weight and sex and diet and social_activity and air_travel and transport and vehicle_type and shower and heating and energy_efficiency and waste_size and waste_count and recycling and screen_time and internet and grocery and clothes and cook and distance:
-    emissions = Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook, distance)
-else:
-    emissions = 0
+emissions = Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, distance, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook)
 st.write(f'Your estimated emission levels are: {emissions}')
