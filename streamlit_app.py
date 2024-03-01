@@ -43,4 +43,4 @@ cook = st.multiselect('Which of the Following do you Cook With? (Select all that
 calculate = st.button('Calculate my Emissions')
 if calculate:
     emissions = Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, distance, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook)
-    st.write(f'Your estimated monthly emission levels are: {emissions} Kilgrams CO2E')
+    st.write(f'Your estimated monthly emission levels are: {emissions} Kilograms CO2E')
