@@ -179,4 +179,5 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
             user.at[0, column_name] = 0
     
     emissions = lr.predict(user)
+    emissions = round(emissions[0], 2)
     return emissions

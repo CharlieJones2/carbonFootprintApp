@@ -3,7 +3,7 @@ from calculate import Calculate
 
 # Title and description
 st.title('Carbon Footprint Calculator')
-st.write('This application helps you calculate your carbon footprint.')
+st.write('This application helps you calculate your monthly carbon footprint expressed in Kilograms of CO2 Equivalent.')
 
 height = weight = sex = diet = social_activity = air_travel = transport = vehicle_type = shower = heating = energy_efficiency = waste_size = waste_count = recycling = screen_time = internet = grocery = clothes = cook = distance = None
 
@@ -40,6 +40,7 @@ grocery = st.number_input('Roughly How Many Dollars do you Spend on Groceries Ea
 clothes = st.number_input('How Many New Items of Clothing do you Buy Each Month?', min_value=0, max_value=75, step=1)
 cook = st.multiselect('Which of the Following do you Cook With? (Select all that apply)', ['Stove', 'Oven', 'Microwave', 'Grill', 'Air Fryer'])
 
-calculate = st.button('Calculate')
-emissions = Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, distance, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook)
-st.write(f'Your estimated emission levels are: {emissions}')
+calculate = st.button('Calculate my Emissions')
+if calculate:
+    emissions = Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, distance, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook)
+    st.write(f'Your estimated monthly emission levels are: {emissions} Kilgrams CO2E')
