@@ -56,8 +56,8 @@ if calculate:
     else:
         pass
     
-    suggestions = st.button('How can I lowe my emissions?')
-    if suggestions:
+    suggestions = st.button('How can I lower my emissions?')
+if suggestions:
         st.write('Go vegan ;)')
     
 
