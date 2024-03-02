@@ -48,7 +48,6 @@ if calculate:
 
 st.header('Results')
 
-calculate = st.button('Calculate my Emissions')
 if calculate:
     st.write(f'Your estimated monthly emission levels are: `{emissions} Kilograms CO2E`')
     if emissions < 5000:
