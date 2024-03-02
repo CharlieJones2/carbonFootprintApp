@@ -47,22 +47,17 @@ if calculate:
     
 
 st.header('Results')
+
+calculate = st.button('Calculate my Emissions')
 if calculate:
     st.write(f'Your estimated monthly emission levels are: `{emissions} Kilograms CO2E`')
     if emissions < 5000:
         st.write('Keep it up! Your emissions levels are below average :D')
     elif emissions > 5000:
         st.write('Your emissions levels are above average. Consider hitting the button below for some suggestions on how to reduce your footprint.')
-    else:
-        pass
-    
-suggestions = st.button('How can I lower my emissions?')
-if calculate and suggestions:
-        st.write('Go vegan ;)')
-elif not calculate and suggestions:
-    st.write('Hit the `Calculate my Emissions` button to be eligible for suggesions.')
-    
-
-
+        suggestions = st.button('How can I lower my emissions?')
+        if suggestions:
+            st.write('Go vegan ;)')
 else:
     st.write('Click on the `Calculate my Emissions` button to see your estimated monthly emissions level!')
+    
