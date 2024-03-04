@@ -42,6 +42,7 @@ clothes = st.number_input('How Many New Items of Clothing do you Buy Each Month?
 cook = st.multiselect('Which of the Following do you Cook With? (Select all that apply)', ['Stove', 'Oven', 'Microwave', 'Grill', 'Air Fryer'])
 
 calculate = st.button('Calculate my Emissions')
+calculatePressed = False
 if calculate:
     emissions = Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, distance, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook)
     
