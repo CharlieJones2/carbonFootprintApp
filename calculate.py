@@ -173,4 +173,5 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
     
     emissions = rf.predict(user)
     emissions = round(emissions[0], 2)
+    
     return emissions
