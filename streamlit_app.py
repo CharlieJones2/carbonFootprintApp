@@ -27,7 +27,7 @@ else:
 st.header('Energy Usage')
 shower = st.selectbox('How Often do you Shower?', ['Less Frequently', 'Daily', 'Twice a Day', 'More Frequently'])
 heating = st.selectbox('Which of These is your Primary Heating Source?', ['Coal', 'Natural Gas', 'Wood', 'Electricity'])
-energy_efficiency = st.selectbox('Is your Home Energy Efficient?', ['No', 'Sometimes', 'Yes'])
+energy_efficiency = st.selectbox('Do you Consider the Energy Efficiency of your Devices?', ['No', 'Sometimes', 'Yes'])
 
 st.header('Waste and Recycling')
 waste_size = st.selectbox('How Big is your Waste Bag?', ['Small', 'Medium', 'Large', 'Extra Large'])
@@ -54,9 +54,12 @@ if calculate:
         st.write('Keep it up! Your emissions levels are below average :D')
     elif emissions > 5000:
         st.write('Your emissions levels are above average. Consider hitting the button below for some suggestions on how to reduce your footprint.')
-    suggestions = st.button('How can I lower my emissions?')
-    if suggestions:
-        st.write('Go vegan ;)')
 else:
     st.write('Click on the `Calculate my Emissions` button to see your estimated monthly emissions level!')
     
+suggestions = st.button('How can I lower my emissions?')
+if suggestions:
+    if calculate:
+        st.write('Go vegan ;)')
+    else:
+        st.write('Please click the `Calculate my Emissions` button for suggestions on how to lower your environmental impact.')
