@@ -1,4 +1,3 @@
-
 import pandas as pd
 dataset = pd.read_csv('Carbon Emission.csv')
 df = pd.DataFrame(dataset)
@@ -62,6 +61,17 @@ residuals = y_test - y_pred
 mae = mean_absolute_error(y_test, y_pred)
 mse = mean_squared_error(y_test, y_pred)
 r2 = r2_score(y_test, y_pred)
+
+# Random Forest
+
+from sklearn.ensemble import RandomForestRegressor
+
+rf = RandomForestRegressor(random_state=42, n_estimators=200, max_features=20)
+
+rf.fit(X_train, y_train)
+y_pred_rf = rf.predict(X_test)
+
+rf_score = r2_score(y_test, y_pred_rf)
 
 def Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, distance, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook):
     user = pd.DataFrame(columns=["shower","monthlyGrocery","airTravel","monthlyVehicle","wasteCount","dailyScreen","monthlyClothes","dailyInternet","energyEfficiency",
@@ -178,6 +188,6 @@ def Calculate(height, weight, sex, diet, social_activity, air_travel, transport,
         else:
             user.at[0, column_name] = 0
     
-    emissions = lr.predict(user)
+    emissions = rf.predict(user)
     emissions = round(emissions[0], 2)
     return emissions
