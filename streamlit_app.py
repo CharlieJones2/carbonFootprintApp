@@ -49,6 +49,7 @@ if calculate:
 st.header('Results')
 
 if calculate:
+    calculatePressed = True
     st.write(f'Your estimated monthly emission levels are: `{emissions} Kilograms CO2E`')
     if emissions < 5000:
         st.write('Keep it up! Your emissions levels are below average :D')
@@ -59,7 +60,7 @@ else:
     
 suggestions = st.button('How can I lower my emissions?')
 if suggestions:
-    if calculate:
+    if calculatePressed:
         st.write('Go vegan ;)')
     else:
         st.write('Please click the `Calculate my Emissions` button for suggestions on how to lower your environmental impact.')
