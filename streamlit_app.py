@@ -41,16 +41,19 @@ grocery = st.number_input('Roughly How Many Dollars do you Spend on Groceries Ea
 clothes = st.number_input('How Many New Items of Clothing do you Buy Each Month?', min_value=0, max_value=75, step=1)
 cook = st.multiselect('Which of the Following do you Cook With? (Select all that apply)', ['Stove', 'Oven', 'Microwave', 'Grill', 'Air Fryer'])
 
+if 'calculatePressed' not in st.session_state:
+    st.session_state.calculatePressed = False
+    
 calculate = st.button('Calculate my Emissions')
 calculatePressed = False
 if calculate:
+    st.session_state.calculatePressed = True
     emissions = Calculate(height, weight, sex, diet, social_activity, air_travel, transport, vehicle_type, distance, shower, heating, energy_efficiency, waste_size, waste_count, recycling, screen_time, internet, grocery, clothes, cook)
     
 
 st.header('Results')
 
 if calculate:
-    calculatePressed = True
     st.write(f'Your estimated monthly emission levels are: `{emissions} Kilograms CO2E`')
     if emissions < 5000:
         st.write('Keep it up! Your emissions levels are below average :D')
@@ -61,7 +64,7 @@ else:
     
 suggestions = st.button('How can I lower my emissions?')
 if suggestions:
-    if calculatePressed:
+    if st.session_state.calculatePressed:
         st.write('Go vegan ;)')
     else:
         st.write('Please click the `Calculate my Emissions` button for suggestions on how to lower your environmental impact.')
