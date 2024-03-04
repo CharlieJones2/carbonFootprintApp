@@ -82,9 +82,9 @@ st.header('Results')
 
 if calculate:
     st.write(f'Your estimated monthly emission levels are: `{emissions} Kilograms CO2E`')
-    if emissions < 391:
+    if emissions < 2270:
         st.write('Keep it up! Your emissions levels are below average :D')
-    elif emissions > 391:
+    elif emissions > 2270:
         st.write('Your emissions levels are above average. Consider hitting the button below for some suggestions on how to reduce your footprint.')
 else:
     st.write('Click on the `Calculate my Emissions` button to see your estimated monthly emissions level!')
